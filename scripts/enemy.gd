@@ -152,6 +152,7 @@ func _die() -> void:
 	collision.set_deferred("disabled", true)
 	touch.monitoring = false
 	_play("death")
+	Sfx.play("plat_enemy_pop", -8.0)
 	died.emit()
 	await sprite.animation_finished
 	queue_free()

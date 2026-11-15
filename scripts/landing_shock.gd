@@ -53,3 +53,4 @@ func _on_body_entered(body: Node) -> void:
 		return
 	_hit.append(id)
 	body.take_hit(DAMAGE, global_position)
+	Sfx.play("plat_stomp", -9.0)

@@ -13,8 +13,9 @@ const JUMP_CUT := 0.42
 const FALL_GRAVITY := 1.35
 const COYOTE := 0.09
 const JUMP_BUFFER := 0.12
-const BOUNCE_SPEED := 260.0
-const BOUNCE_UP := -36.0
+const BOUNCE_SPEED := 340.0
+const BOUNCE_UP := -160.0
+const BOUNCE_TIME := 0.28
 const MIN_LAND_SPEED := 70.0
 const MAX_HEALTH := 5
 const I_FRAMES := 0.8
@@ -39,6 +40,7 @@ var _dead := false
 var _anim := "idle"
 var _dash_time := 0.0
 var _dash_cd := 0.0
+var _skip_land_sfx := false
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision: CollisionShape2D = $CollisionShape2D
@@ -113,6 +115,7 @@ func _physics_process(delta: float) -> void:
 		_coyote = 0.0
 		_jump_buf = 0.0
 		_play("jump")
+		Sfx.play("plat_jump_heavy", -5.0)
 
 	if not is_on_floor() and Input.is_action_just_released("jump") and velocity.y < 0.0:
 		velocity.y *= JUMP_CUT
@@ -143,6 +146,11 @@ func _physics_process(delta: float) -> void:
 		_airborne = false
 		if _jump_armed and _peak_fall >= MIN_LAND_SPEED:
 			_bounce_back()
+		else:
+			if _skip_land_sfx:
+				_skip_land_sfx = false
+			else:
+				Sfx.play("plat_land_soft", -9.0)
 		_jump_armed = false
 		_peak_fall = 0.0
 
@@ -160,6 +168,7 @@ func _try_dash() -> void:
 	velocity.x = facing * DASH_SPEED
 	velocity.y = minf(velocity.y, 40.0)
 	_play("dash")
+	Sfx.play("plat_dash_start", -9.0)
 	_shake()
 
 
@@ -176,9 +185,13 @@ func _bounce_back() -> void:
 	velocity.x = -_air_facing * BOUNCE_SPEED
 	velocity.y = BOUNCE_UP
 	facing = -_air_facing
-	_bounce_time = 0.22
+	_bounce_time = BOUNCE_TIME
 	_hurt_time = maxf(_hurt_time, 0.18)
 	_play("dash")
+	Sfx.play("plat_land_heavy", -4.0)
+	# The bounce pops us up off the floor; suppress the soft land on the
+	# way back down so it doesn't stack with the heavy impact.
+	_skip_land_sfx = true
 	landed_shock.emit()
 	_shake()
 
