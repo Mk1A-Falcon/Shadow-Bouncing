@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dufcoshm7sgmx"
+path="res://.godot/imported/2- Showdown in Turmoil carnival.ogg-3d73ae9d9a64b3bc1eb5af824b98a43b.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/Eclipzodiac -  RPG Maker Mix V1_375/OGG Looped/2- Showdown in Turmoil carnival.ogg"
+dest_files=["res://.godot/imported/2- Showdown in Turmoil carnival.ogg-3d73ae9d9a64b3bc1eb5af824b98a43b.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

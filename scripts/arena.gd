@@ -4,16 +4,19 @@ const PLAYER_SCENE := preload("res://scenes/player.tscn")
 const ENEMY_SCENE := preload("res://scenes/enemy.tscn")
 const HEART_SCENE := preload("res://scenes/heart_pickup.tscn")
 const MENU := "res://scenes/main_menu.tscn"
-const MUSIC := "res://assets/Eclipzodiac -  RPG Maker Mix V1_375/OGG Looped/13- Full Strength Unleashed.ogg"
+const MUSIC := "res://assets/Eclipzodiac -  RPG Maker Mix V1_375/OGG Looped/3- Ancient prisoner.ogg"
 const CAVE := "res://assets/Run Like Hell assets/enviro/World 1/elements/background_seamless.png"
 const FLOOR := "res://assets/Run Like Hell assets/enviro/World 1/props/rocks_floor.png"
 const SIGN := "res://assets/Run Like Hell assets/enviro/World 1/props/sign_keep_out.png"
+const WARN := "res://assets/Run Like Hell assets/enviro/World 1/props/sign_warning.png"
 const LANTERN := "res://assets/Run Like Hell assets/enviro/World 1/cave walls and elements/lantern.png"
 const BONES := "res://assets/Run Like Hell assets/enviro/World 1/props/bones_0.png"
-const WOOD := "res://assets/Run Like Hell assets/enviro/World 1/elements/platform.png"
+const BONES_B := "res://assets/Run Like Hell assets/enviro/World 1/props/bones_3.png"
+const BARREL := "res://assets/Run Like Hell assets/enviro/World 1/props/barrel0.png"
 
-const LEVEL_W := 3200.0
+const LEVEL_W := 4800.0
 const FLOOR_Y := 620.0
+const GROUND_HEART_Y := FLOOR_Y - 36.0
 
 var _player: CharacterBody2D
 var _enemies_left := 0
@@ -62,21 +65,24 @@ func _build_world() -> void:
 	_static_box(Vector2(LEVEL_W * 0.5, FLOOR_Y + 40), Vector2(LEVEL_W, 80))
 	_tile_floor(0.0, LEVEL_W, FLOOR_Y)
 
-	_platform(420, 470, 280)
-	_platform(820, 380, 240)
-	_platform(1280, 470, 260)
-	_platform(1760, 360, 300)
-	_platform(2280, 470, 280)
-	_platform(2740, 390, 260)
-
 	_static_box(Vector2(-20, 360), Vector2(40, 800))
 	_static_box(Vector2(LEVEL_W + 20, 360), Vector2(40, 800))
 
-	_deco(SIGN, Vector2(300, FLOOR_Y - 70), 1.4)
-	_deco(LANTERN, Vector2(980, FLOOR_Y - 90), 1.6)
-	_deco(BONES, Vector2(1500, FLOOR_Y - 28), 1.3)
-	_deco(LANTERN, Vector2(2100, FLOOR_Y - 90), 1.6)
-	_deco(BONES, Vector2(2550, FLOOR_Y - 28), 1.3)
+	_deco(SIGN, Vector2(250, FLOOR_Y - 48), 2.4)
+	_deco(WARN, Vector2(1680, FLOOR_Y - 46), 2.2)
+	_deco(SIGN, Vector2(3320, FLOOR_Y - 48), 2.4)
+	_deco(WARN, Vector2(4560, FLOOR_Y - 46), 2.2)
+
+	for x in [620.0, 1240.0, 1960.0, 2680.0, 3400.0, 4120.0]:
+		_deco(LANTERN, Vector2(x, 300.0), 2.6)
+
+	_deco(BONES, Vector2(900, FLOOR_Y - 22), 1.6)
+	_deco(BONES_B, Vector2(2140, FLOOR_Y - 20), 1.6)
+	_deco(BONES, Vector2(2980, FLOOR_Y - 22), 1.5)
+	_deco(BONES_B, Vector2(3900, FLOOR_Y - 20), 1.6)
+	_deco(BARREL, Vector2(1505, FLOOR_Y - 36), 2.0)
+	_deco(BARREL, Vector2(1548, FLOOR_Y - 36), 2.0)
+	_deco(BARREL, Vector2(3720, FLOOR_Y - 36), 2.0)
 
 
 func _tile_floor(start_x: float, width: float, y: float) -> void:
@@ -84,8 +90,11 @@ func _tile_floor(start_x: float, width: float, y: float) -> void:
 	if tex == null:
 		return
 	var tw := tex.get_width() * 0.7
+	var step := tw * 0.78
 	var x := start_x
-	while x < start_x + width:
+	# Cover the whole span, including a final overlapping tile so the ground
+	# reaches the right wall with no background gap.
+	while x < start_x + width + step:
 		var s := Sprite2D.new()
 		s.texture = tex
 		s.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -93,20 +102,7 @@ func _tile_floor(start_x: float, width: float, y: float) -> void:
 		s.scale = Vector2(0.7, 0.7)
 		s.z_index = -2
 		add_child(s)
-		x += tw * 0.78
-
-
-func _platform(x: float, y: float, w: float) -> void:
-	_static_box(Vector2(x, y), Vector2(w, 28))
-	var tex := load(WOOD) as Texture2D
-	var s := Sprite2D.new()
-	s.texture = tex
-	s.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	s.position = Vector2(x, y)
-	s.scale = Vector2(w / maxf(tex.get_width(), 1.0), 0.55)
-	s.z_index = -1
-	s.modulate = Color(0.75, 0.8, 0.9)
-	add_child(s)
+		x += step
 
 
 func _static_box(pos: Vector2, size: Vector2) -> void:
@@ -151,38 +147,33 @@ func _spawn_player() -> void:
 
 
 func _spawn_enemies() -> void:
-	var spots := [
-		Vector2(520, FLOOR_Y - 80),
-		Vector2(820, FLOOR_Y - 80),
-		Vector2(1280, FLOOR_Y - 80),
-		Vector2(1600, FLOOR_Y - 80),
-		Vector2(1760, FLOOR_Y - 80),
-		Vector2(2280, FLOOR_Y - 80),
-		Vector2(2500, FLOOR_Y - 80),
-		Vector2(2900, FLOOR_Y - 80),
+	var spots: Array[Dictionary] = [
+		{"kind": "gholum", "x": 720.0, "hp": 2, "speed": 64.0},
+		{"kind": "gruby", "x": 1180.0, "hp": 3, "speed": 48.0},
+		{"kind": "harpy", "x": 1640.0, "hp": 2, "speed": 78.0},
+		{"kind": "voldo", "x": 2140.0, "hp": 3, "speed": 70.0},
+		{"kind": "gholum", "x": 2620.0, "hp": 2, "speed": 64.0},
+		{"kind": "gruby", "x": 3100.0, "hp": 3, "speed": 46.0},
+		{"kind": "harpy", "x": 3560.0, "hp": 2, "speed": 80.0},
+		{"kind": "voldo", "x": 4040.0, "hp": 3, "speed": 72.0},
+		{"kind": "gholum", "x": 4480.0, "hp": 2, "speed": 66.0},
 	]
 	_enemies_left = spots.size()
-	for pos in spots:
+	for spot in spots:
 		var enemy: Node = ENEMY_SCENE.instantiate()
-		enemy.position = pos
-		enemy.max_health = 2
-		enemy.move_speed = 64
+		enemy.kind = spot["kind"]
+		enemy.position = Vector2(float(spot["x"]), FLOOR_Y - 48.0)
+		enemy.max_health = int(spot["hp"])
+		enemy.move_speed = float(spot["speed"])
 		enemy.died.connect(_on_enemy_died)
 		add_child(enemy)
 
 
 func _spawn_hearts() -> void:
-	var spots := [
-		Vector2(420, 430),
-		Vector2(820, 340),
-		Vector2(1100, FLOOR_Y - 42),
-		Vector2(1760, 320),
-		Vector2(2100, FLOOR_Y - 42),
-		Vector2(2740, 350),
-	]
-	for pos in spots:
+	var xs: Array[float] = [460.0, 960.0, 1420.0, 1900.0, 2380.0, 2860.0, 3340.0, 3820.0, 4280.0]
+	for x in xs:
 		var heart: Node = HEART_SCENE.instantiate()
-		heart.position = pos
+		heart.position = Vector2(x, GROUND_HEART_Y)
 		add_child(heart)
 
 

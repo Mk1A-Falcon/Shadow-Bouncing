@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dwtkd883o37g0"
+path="res://.godot/imported/13- Full Strength Unleashed.ogg-d5a537cfd67a6fefcf0323ddf79b3c7f.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/Eclipzodiac -  RPG Maker Mix V1_375/OGG Looped/13- Full Strength Unleashed.ogg"
+dest_files=["res://.godot/imported/13- Full Strength Unleashed.ogg-d5a537cfd67a6fefcf0323ddf79b3c7f.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

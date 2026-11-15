@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cvjtifusuisvm"
+path="res://.godot/imported/7- Nerve monster.ogg-efe9b45bfe861a8b2f3d36a27f594dc8.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/Eclipzodiac -  RPG Maker Mix V1_375/OGG Looped/7- Nerve monster.ogg"
+dest_files=["res://.godot/imported/7- Nerve monster.ogg-efe9b45bfe861a8b2f3d36a27f594dc8.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

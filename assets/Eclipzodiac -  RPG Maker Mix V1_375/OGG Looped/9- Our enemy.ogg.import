@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://qbu1pjqcjusd"
+path="res://.godot/imported/9- Our enemy.ogg-985b6f59bc400698da9abc03d265f622.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/Eclipzodiac -  RPG Maker Mix V1_375/OGG Looped/9- Our enemy.ogg"
+dest_files=["res://.godot/imported/9- Our enemy.ogg-985b6f59bc400698da9abc03d265f622.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

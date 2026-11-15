@@ -2,7 +2,8 @@ extends CharacterBody2D
 
 signal died
 
-@export var patrol_range := 90.0
+@export var kind := "gholum"
+@export var patrol_range := 110.0
 @export var max_health := 2
 @export var move_speed := 70.0
 @export var contact_damage := 1
@@ -30,7 +31,6 @@ func _ready() -> void:
 	capsule.radius = 11.0
 	capsule.height = 24.0
 	collision.position = Vector2(0, 6)
-	sprite.scale = Vector2(1.85, 1.85)
 	collision.shape = capsule
 	var box := RectangleShape2D.new()
 	box.size = Vector2(22, 28)
@@ -43,12 +43,36 @@ func _ready() -> void:
 
 func _build_frames() -> void:
 	var sheet := SpriteFrames.new()
-	SpriteStrip.add_strip(sheet, "res://assets/Run Like Hell assets/enemies/gholum/gholum_idle_strip11.png", 11, "idle", 8.0, true)
-	SpriteStrip.add_strip(sheet, "res://assets/Run Like Hell assets/enemies/gholum/gholum_walk_strip13.png", 13, "move", 10.0, true)
-	SpriteStrip.add_strip(sheet, "res://assets/Run Like Hell assets/enemies/gholum/gholum_fall_strip11.png", 11, "hurt", 14.0, false)
-	SpriteStrip.add_strip(sheet, "res://assets/Run Like Hell assets/enemies/gholum/gholum_death_strip10.png", 10, "death", 11.0, false)
+	var root := "res://assets/Run Like Hell assets/enemies/"
+	var scale := 1.85
+	match kind:
+		"gruby":
+			SpriteStrip.add_strip(sheet, root + "gruby/gruby_idle_strip10.png", 10, "idle", 8.0, true)
+			SpriteStrip.add_strip(sheet, root + "gruby/gruby_walk_strip14.png", 14, "move", 10.0, true)
+			SpriteStrip.add_strip(sheet, root + "gruby/gruby_fall_n_standup_strip22.png", 22, "hurt", 20.0, false)
+			SpriteStrip.add_strip(sheet, root + "gruby/gruby_death_strip17.png", 17, "death", 12.0, false)
+			scale = 1.69
+		"harpy":
+			SpriteStrip.add_strip(sheet, root + "harpy/harpy_idle_ground_strip8.png", 8, "idle", 8.0, true)
+			SpriteStrip.add_strip(sheet, root + "harpy/harpy_walk_strip13.png", 13, "move", 11.0, true)
+			SpriteStrip.add_strip(sheet, root + "harpy/harpy_hit_strip13.png", 13, "hurt", 16.0, false)
+			SpriteStrip.add_strip(sheet, root + "harpy/harpy_death_strip16.png", 16, "death", 12.0, false)
+			scale = 1.49
+		"voldo":
+			SpriteStrip.add_still(sheet, root + "voldo/voldo_walk_strip18.png", 18, 0, "idle")
+			SpriteStrip.add_strip(sheet, root + "voldo/voldo_run_strip18.png", 18, "move", 12.0, true)
+			SpriteStrip.add_strip(sheet, root + "voldo/voldo_jump_strip20.png", 20, "hurt", 18.0, false)
+			SpriteStrip.add_strip(sheet, root + "voldo/voldo_attack_strip14.png", 14, "death", 14.0, false)
+			scale = 1.33
+		_:
+			SpriteStrip.add_strip(sheet, root + "gholum/gholum_idle_strip11.png", 11, "idle", 8.0, true)
+			SpriteStrip.add_strip(sheet, root + "gholum/gholum_walk_strip13.png", 13, "move", 10.0, true)
+			SpriteStrip.add_strip(sheet, root + "gholum/gholum_fall_strip11.png", 11, "hurt", 14.0, false)
+			SpriteStrip.add_strip(sheet, root + "gholum/gholum_death_strip10.png", 10, "death", 11.0, false)
+			scale = 1.85
 	sprite.sprite_frames = sheet
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.scale = Vector2(scale, scale)
 
 
 func _physics_process(delta: float) -> void:

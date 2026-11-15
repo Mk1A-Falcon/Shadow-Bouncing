@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cj43qeblplpal"
+path="res://.godot/imported/12- Era Machine.ogg-775c7bbd97eb942d35d338a4e3b466e6.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/Eclipzodiac -  RPG Maker Mix V1_375/OGG Looped/12- Era Machine.ogg"
+dest_files=["res://.godot/imported/12- Era Machine.ogg-775c7bbd97eb942d35d338a4e3b466e6.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

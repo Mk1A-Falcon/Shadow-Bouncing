@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://2idfh41c7pbp"
+path="res://.godot/imported/4- Eleuxelier.ogg-84a216c4208d0d48cf9da42f97da3c10.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/Eclipzodiac -  RPG Maker Mix V1_375/OGG Looped/4- Eleuxelier.ogg"
+dest_files=["res://.godot/imported/4- Eleuxelier.ogg-84a216c4208d0d48cf9da42f97da3c10.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

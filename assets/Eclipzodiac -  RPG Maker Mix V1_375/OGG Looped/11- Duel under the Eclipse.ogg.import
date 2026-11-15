@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cwy6k4aujr4i4"
+path="res://.godot/imported/11- Duel under the Eclipse.ogg-f15f35840778da6addaaeaa22dd8e148.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/Eclipzodiac -  RPG Maker Mix V1_375/OGG Looped/11- Duel under the Eclipse.ogg"
+dest_files=["res://.godot/imported/11- Duel under the Eclipse.ogg-f15f35840778da6addaaeaa22dd8e148.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
